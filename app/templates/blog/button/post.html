@@ -1,0 +1,43 @@
+<div class="container mt-5">
+  <div class="d-flex align-items-center justify-content-center">
+    <div class="card" style="width: 700px; height: 180px;">
+      <form action="/blog-post" method="POST" enctype="multipart/form-data">
+        <div class="card-header"> Bài viết </div>
+        <div class="card-body">
+          <textarea class="w-100" name="content" placeholder="What're u thinking?" style="padding: 0"></textarea>
+        </div>
+        <div class="card-footer d-flex justify-content-between">
+          <label for="inputTag1">
+            <i class='bx bxs-image bx-sm'></i>
+            <input id="inputTag1" type="file" name="image" placeholder="image" />
+            <span id="imageName1"></span>
+          </label>
+          <button type="submit" class="btn"><i class='bx bxs-send bx-sm'></i></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  const input1 = document.getElementById('inputTag1');
+  const imageName1 = document.getElementById('imageName1');
+
+  input1.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      imageName1.textContent = formatFileName(file.name);
+    }
+  });
+
+  function formatFileName(fileName) {
+    const maxLength = 20; // Độ dài tối đa của tên tệp
+    let formattedName = fileName;
+    if (formattedName.length > maxLength) {
+      const extension = formattedName.substring(formattedName.lastIndexOf('.'));
+      const truncatedName = formattedName.substring(0, maxLength - extension.length - 3);
+      formattedName = truncatedName + '...' + extension;
+    }
+    return formattedName;
+  }
+</script>

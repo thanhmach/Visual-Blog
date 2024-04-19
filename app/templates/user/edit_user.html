@@ -1,0 +1,65 @@
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addModalLabel">Edit user information</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/update" method="POST" class="w-100">
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-4">
+                            <h6 class="mb-0">Full Name</h6>
+                        </div>
+                        <div class="col-8">
+                            <input type="text" name="fullname" value="{{ fullname }}" />
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-4">
+                            <h6 class="mb-0">Date</h6>
+                        </div>
+                        <div class="col-8">
+                            <input type="date" name="date" value="{{ date }}" />
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-4">
+                            <h6 class="mb-0">Phone</h6>
+                        </div>
+                        <div class="col-8">
+                            <input type="tel" name="phone" value="{{ phone }}" />
+                        </div>
+                    </div>
+                    <fieldset class="row mb-3">
+                        <div class="col-4 form-label">
+                            <h6 class="mb-0">Gender</h6>
+                        </div>
+                        <div class="col-8">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" value="Male" id="male" name="gender" {% if
+                                    gender=="Male" %}checked{% endif %}>
+                                <label class="form-check-label" for="male">Male</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" value="Female" id="female" name="gender" {%
+                                    if gender=="Female" %}checked{% endif %}>
+                                <label class="form-check-label" for="female">Female</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" value="Other" id="other" name="gender" {%
+                                    if gender=="Other" %}checked{% endif %}>
+                                <label class="form-check-label" for="other">Other</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn ms-auto" type="submit">
+                        <i class='bx bxs-save bx-sm'></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

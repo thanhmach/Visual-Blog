@@ -1,0 +1,20 @@
+{% if like_details %}
+{% set liked_posts = [] %}
+{% for like_detail in like_details %}
+{% if like_detail.blogid == post.blogid and like_detail.accid == session['AccID'] %}
+{% set liked_posts = liked_posts.append(post.blogid) %}
+{%endif %}
+{% endfor %}
+{% endif %}
+
+{% if liked_posts and post.blogid in liked_posts %}
+<form action="/del_like" method="POST">
+  <input type="hidden" name="blogid" value="{{ post.blogid }}" />
+  <button class="btn"><i class="bx bxs-like bx-sm"></i></button>
+</form>
+{% else %}
+<form action="/like_blog" method="POST">
+  <input type="hidden" name="blogid" value="{{ post.blogid }}" />
+  <button class="btn"><i class="bx bx-like bx-sm"></i></button>
+</form>
+{% endif %}

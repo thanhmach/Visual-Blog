@@ -1,0 +1,31 @@
+<header id="header" class="fixed-top">
+  <div class="container d-flex align-items-center justify-content-between">
+    <h1 class="logo"><a href="{{ url_for('return_index') }}">VisualBlog</a></h1>
+    <nav id="navbar" class="navbar">
+      <ul>
+        <li>
+          <a class="nav-link scrollto active" href="{{ url_for('index') }}">Home</a>
+        </li>
+        <li>
+          <a class="nav-link scrollto" href="{{ url_for('newfeed') }}">Newfeed</a>
+        </li>
+        <li>
+          <a class="nav-link scrollto" href="{{ url_for('inner_page') }}">Your blog</a>
+        </li>
+        {% if session.get('account') is not none %}
+        <li>
+          <a class="getstarted scrollto" href="{{ url_for('user_page') }}">{{ session['account'] }}</a>
+        </li>
+        <li>
+          <a class="logout" href="{{ url_for('logout') }}">Đăng xuất</a>
+        </li>
+        {% else %}
+        <li>
+          <a class="getstarted scrollto" href="{{ url_for('login_page') }}">Login</a>
+        </li>
+        {% endif %}
+      </ul>
+      <i class="bi bi-list mobile-nav-toggle"></i>
+    </nav>
+  </div>
+</header>

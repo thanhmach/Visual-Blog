@@ -1,0 +1,90 @@
+{% include 'form/css.html' %}
+
+<body>
+  {% include 'form/header.html' %}
+
+  <main id="main">
+    <!-- ======= Breadcrumbs ======= -->
+    <section class="breadcrumbs">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Inner Page</h2>
+          <ol>
+            <li><a href="index.html">Home</a></li>
+            <li>Inner Page</li>
+          </ol>
+        </div>
+      </div>
+    </section><!-- End Breadcrumbs -->
+
+    <section class="vh-100">
+      <div class="container py-5 h-100">
+        <div class="row justify-content-center align-items-center h-100">
+          <div class="col-12 col-lg-9 col-xl-7">
+            <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+              <div class="card-body p-4 p-md-5">
+                <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Login</h3>
+                <div class="error-message">
+                  {% with messages = get_flashed_messages(with_categories=True) %}
+                  {% if messages %} {% for category, message in messages %}
+                  <div class="alert alert-{{ category }}" role="alert">
+                    {{ message }}
+                  </div>
+                  {% endfor %} {% endif %} {% endwith %}
+                </div>
+                <form action="/login" class="login-form" method="POST" id="loginForm">
+                  <div class="row">
+                    <div class="form-outline">
+                      <label class="form-label" for="account">Account</label>
+                      <input type="text" id="account" name="account" class="form-control form-control-lg" />
+                      <span class="error-message" id="account-error"></span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-outline">
+                      <label class="form-label" for="password">Password</label>
+                      <input type="password" id="password" name="password" class="form-control form-control-lg" />
+                      <span class="error-message" id="password-error"></span>
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-center pt-3">
+                    <button type="submit" class="btn btn-primary btn-lg">Login</button>
+                  </div>
+                  <div class="d-flex justify-content-center pt-3 ">
+                    <p class="message">
+                      Not registered?
+                      <a href="{{ url_for('register_page') }}">Create an account</a>
+                    </p>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  {% include 'form/footer.html' %}
+</body>
+
+<script>
+  document.getElementById('loginForm').addEventListener('submit', function (event) {
+    var account = document.getElementById('account').value;
+    var password = document.getElementById('password').value;
+
+    var errorMessages = document.getElementsByClassName('error-message');
+    for (var i = 0; i < errorMessages.length; i++) {
+      errorMessages[i].textContent = '';
+    }
+
+    if (account === '') {
+      document.getElementById('account-error').textContent = 'Please enter your account.';
+      event.preventDefault();
+    }
+
+    if (password === '') {
+      document.getElementById('password-error').textContent = 'Please enter your password.';
+      event.preventDefault();
+    }
+  });
+</script>

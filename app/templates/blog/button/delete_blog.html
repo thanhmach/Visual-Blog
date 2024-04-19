@@ -1,0 +1,11 @@
+<form action="/del_blog" method="POST" onsubmit="return confirmDeleteBlog();">
+    <input type="hidden" name="blogid" value="{{ post.blogid }}" />
+    <input type="hidden" name="accid" value="{{ post.accid }}" />
+    <button class="btn" type="submit"><i class='bx bxs-trash bx-sm'></i></button>
+</form>
+
+<script>
+    function confirmDeleteBlog() {
+        return confirm("Bạn có chắc chắn muốn xoá bài viết này?");
+    }
+</script>

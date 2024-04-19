@@ -1,0 +1,76 @@
+<!-- Modal hiển thị API dịch -->
+<div class="modal fade" id="translationModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="margin-left: 32rem; margin-top: 16rem">
+      <div class="modal-header">
+        <h5 class="modal-title" id="translationModalLabel">Translation Form</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="translation-form">
+          <div class="form-group">
+            <label for="text-input">Enter text to translate:</label>
+            <textarea class="form-control" id="text-input" name="text" rows="4"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="target-language">Select target language:</label>
+            <select class="form-control" id="target-language" name="targetLanguage">
+              <option value="vi">Vietnamese</option>
+              <option value="en">English</option>
+              <option value="zh">Chinese</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <div id="translation-output"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const textInput = document.getElementById("text-input");
+  const targetLanguageSelect = document.getElementById("target-language");
+  const translationOutput = document.getElementById("translation-output");
+
+  function translateText() {
+    const text = textInput.value;
+    const targetLanguage = targetLanguageSelect.value;
+
+    if (text && targetLanguage) {
+      fetch("/translate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text, targetLanguage }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          translationOutput.innerText = data.translatedText;
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    } else {
+      translationOutput.innerText = "Please enter text and select a target language.";
+    }
+  }
+
+  // Lắng nghe sự kiện thay đổi ngôn ngữ đích
+  targetLanguageSelect.addEventListener("change", translateText);
+
+  document.getElementById("translationModal").addEventListener("show.bs.modal", function (event) {
+    const button = event.relatedTarget; // Nút mở modal dịch
+    const content = button.getAttribute("data-content"); // Lấy nội dung từ thuộc tính data-content
+
+    textInput.value = content; // Đặt nội dung vào trường văn bản của modal
+
+    // Xóa nội dung dịch trước đó (nếu có)
+    translationOutput.innerText = "";
+
+    // Tự động dịch khi mở modal dịch
+    translateText();
+  });
+</script>

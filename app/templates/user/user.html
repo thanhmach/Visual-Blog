@@ -1,0 +1,79 @@
+{% include 'form/css.html' %}
+
+<body>
+    {% include 'form/header.html' %}
+
+    <main id="main">
+        <!-- ======= Breadcrumbs ======= -->
+        <section class="breadcrumbs">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2>User Page</h2>
+                    <ol>
+                        <li><a href="{{ url_for('index') }}">Home</a></li>
+                        <li><a href="{{ url_for('user_page') }}">User page</a></li>
+                    </ol>
+                </div>
+            </div>
+        </section><!-- End Breadcrumbs -->
+
+        <section style="background-color: #f4f5f7;">
+            <div class="container py-5 h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col col-lg-6 mb-4 mb-lg-0">
+                        <div class="card mb-3" style="border-radius: .5rem;">
+                            <from action="/user_page" class="col-md-8" method="GET">
+                                <div class="row g-0">
+                                    <div class="col-md-4 gradient-custom text-center text-white"
+                                        style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                                        {% if gender == 'Male' %}
+                                        <img src="{{ url_for('static', filename='img/male_icon.png') }}" alt="Avatar"
+                                            class="img-fluid my-5" style="width: 80px;" />
+                                        {% elif gender == 'Female' %}
+                                        <img src="{{ url_for('static', filename='img/female_icon.png') }}" alt="Avatar"
+                                            class="img-fluid my-5" style="width: 80px;" />
+                                        {% else %}
+                                        <img src="{{ url_for('static', filename='img/user_icon.png') }}"
+                                            alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
+                                        {% endif %}
+                                        <h5>Fullname</h5>
+                                        <p>{{ fullname }}</p>
+                                        <button class="btn" data-bs-toggle="modal" data-bs-target="#editModal">
+                                            <i class='bx bxs-edit-alt bx-sm'></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body p-4">
+                                            <h6>Information</h6>
+                                            <hr class="mt-0 mb-4">
+                                            <div class="row pt-1">
+                                                <div class="col-6 mb-3">
+                                                    <h6>Date</h6>
+                                                    <p class="text-muted">{{ date }}</p>
+                                                </div>
+                                                <div class="col-6 mb-3">
+                                                    <h6>Phone</h6>
+                                                    <p class="text-muted">{{ phone }}</p>
+                                                </div>
+                                            </div>
+                                            <h6>Projects</h6>
+                                            <hr class="mt-0 mb-4">
+                                            <div class="row pt-1">
+                                                <h6>Email</h6>
+                                                <p class="text-muted">{{ email }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </from>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    {% include 'form/footer.html' %}
+</body>
+
+{% include 'user/edit_user.html' %}

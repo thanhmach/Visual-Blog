@@ -1,0 +1,36 @@
+<div class="modal fade" id="update_comment" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <form action="/update_comment" method="POST">
+                    <h1 class="modal-title fs-5" id="addModalLabel">Comment edit</h1>
+                    <input type="hidden" name="commentid" value="commentId">
+                    <textarea name="comment" placeholder="What're u thinking?" class="area-input"></textarea>
+                    <button class="btn" type="submit"><i class='bx bxs-save bx-sm'></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const commentEditButtons = document.querySelectorAll('.btn[data-bs-target="#update_comment"]');
+
+    commentEditButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const commentId = button.dataset.commentid;
+
+            // Access the hidden blog ID field in the edit modal
+            const modalContent = document.getElementById('update_comment').querySelector('.modal-content');
+            const hiddencommentIdField = modalContent.querySelector('input[name="commentid"]');
+
+            // Populate the hidden blog ID field with the retrieved blog ID
+            hiddencommentIdField.value = commentId;
+
+            // ... other logic to populate content, image preview (if applicable)
+            const contentField = modalContent.querySelector('textarea[name="comment"]');
+            contentField.value = content;
+
+        });
+    });
+</script>

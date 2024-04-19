@@ -1,0 +1,14 @@
+{% if post.blogid == comment.blogid %}
+<div class="d-flex flex-start {% if loop.index > 0 %}mt-4{% endif %}">
+    <div class="card" style="background-color: #ffffff">
+        <div class="d-flex justify-content-between align-items-center">
+            <strong class="mb-1">
+                {{ comment.username }}
+            </strong>
+        </div>
+        <p class="small mb-0">
+            {{ comment.comment }}
+        </p>
+    </div>
+</div>
+{% endif %}

@@ -1,0 +1,103 @@
+<div
+  class="modal fade"
+  id="editblog"
+  tabindex="-1"
+  aria-labelledby="addModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="addModalLabel">Edit information</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form action="/update_blog" method="POST" enctype="multipart/form-data">
+        <div class="modal-body">
+          <img src="" alt="Post Image" class="image-preview" />
+          <textarea name="content" class="area-input-update"></textarea>
+        </div>
+        <div class="modal-footer d-flex flex-wrap justify-content-between">
+          <label for="inputTag2">
+            <i class="bx bxs-image bx-sm"></i>
+            <input id="inputTag2" type="file" name="image" />
+            <span id="imageName2"></span>
+          </label>
+          <input type="hidden" name="blogid" value="blogId" />
+          <input type="hidden" name="accid" value="{{ session['account'] }}" />
+          <button class="btn" type="submit"
+            ><i class="bx bxs-save bx-sm"></i
+          ></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+    const input2 = document.getElementById("inputTag2");
+    const imageName2 = document.getElementById("imageName2");
+
+    input2.addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        imageName2.textContent = formatFileName(file.name);
+      }
+    });
+
+    function formatFileName(fileName) {
+      const maxLength = 20; // Độ dài tối đa của tên tệp
+      let formattedName = fileName;
+      if (formattedName.length > maxLength) {
+        const extension = formattedName.substring(formattedName.lastIndexOf("."));
+        const truncatedName = formattedName.substring(
+          0,
+          maxLength - extension.length - 3
+        );
+        formattedName = truncatedName + "..." + extension;
+      }
+      return formattedName;
+    }
+
+    const editButtons = document.querySelectorAll(
+      '.btn[data-bs-target="#editblog"]'
+    );
+
+    editButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const blogId = button.dataset.blogid;
+        const accId = button.dataset.accid;
+        const imageUrl = button.dataset.image; // Optional for image preview
+        const content = button.dataset.content;
+
+        // Access the hidden blog ID field in the edit modal
+        const modalContent = document.getElementById("editblog").querySelector(".modal-content");
+        const hiddenBlogIdField = modalContent.querySelector('input[name="blogid"]');
+
+        // Populate the hidden blog ID field with the retrieved blog ID
+        hiddenBlogIdField.value = blogId;
+
+        // ... other logic to populate content, image preview (if applicable)
+        const contentField = modalContent.querySelector('textarea[name="content"]');
+        contentField.value = content;
+
+        // Optionally hide the image preview if imageUrl is "None"
+        const imagePreview = modalContent.querySelector(".image-preview");
+        if (imageUrl === "None") {
+          imagePreview.classList.add("hidden");
+        } else {
+          imagePreview.classList.remove("hidden");
+          imagePreview.src = imageUrl;
+        }
+      });
+  });
+</script>
+<style>
+  .hidden {
+    display: none;
+  }
+</style>

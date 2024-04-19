@@ -1,0 +1,175 @@
+{% include 'form/css.html' %}
+
+<body>
+    {% include 'form/header.html' %}
+    <main id="main">
+        <!-- ======= Breadcrumbs ======= -->
+        <section class="breadcrumbs">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2>Inner Page</h2>
+                    <ol>
+                        <li><a href="index.html">Home</a></li>
+                        <li>Inner Page</li>
+                    </ol>
+                </div>
+            </div>
+        </section><!-- End Breadcrumbs -->
+
+        <section class="register-form">
+            <div class="container">
+                <div class="row justify-content-center align-items-center mt-10">
+                    <div class="col-12 col-lg-9 col-xl-7">
+                        <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                            <div class="card-body p-4 p-md-5">
+                                <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Register</h3>
+                                <form action="/register" class="register-form" method="POST" id="registrationForm">
+                                    <div class="row">
+                                        <div class="mb-4">
+                                            <div class="form-outline">
+                                                <label class="form-label" for="account">Account</label>
+                                                <input type="text" id="account" name="account"
+                                                    class="form-control form-control-lg" />
+                                                <span class="error-message" id="account-error"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-4">
+                                            <div class="form-outline">
+                                                <label class="form-label" for="username">Username</label>
+                                                <input type="text" id="username" name="username"
+                                                    class="form-control form-control-lg" />
+                                                <span class="error-message" id="username-error"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-4">
+                                            <div class="form-outline">
+                                                <label class="form-label" for="password">Password</label>
+                                                <input type="password" id="password" name="password"
+                                                    class="form-control form-control-lg" />
+                                                <span class="error-message" id="password-error"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-4 d-flex align-items-center">
+                                            <div class="form-outline datepicker w-100">
+                                                <label class="form-label" for="date">Birthday</label>
+                                                <input type="date" id="date" name="date"
+                                                    class="form-control form-control-lg" />
+                                            </div>
+                                        </div>
+                                        <fieldset class="col-md-6 mb-4">
+                                            <legend class="form-label">Gender</legend>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" value="Male" id="male"
+                                                    name="gender">
+                                                <label class="form-check-label" for="male">Male</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" value="Female" id="female"
+                                                    name="gender">
+                                                <label class="form-check-label" for="female">Female</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" value="Other" id="other"
+                                                    name="gender">
+                                                <label class="form-check-label" for="other">Other</label>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-4 pb-2">
+                                            <div class="form-outline">
+                                                <label class="form-label" for="email">Email</label>
+                                                <input type="email" id="email" name="email"
+                                                    class="form-control form-control-lg" />
+                                                <span class="error-message" id="email-error"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-4 pb-2">
+                                            <div class="form-outline">
+                                                <label class="form-label" for="phone">Phone Number</label>
+                                                <input type="tel" id="phone" name="phone"
+                                                    class="form-control form-control-lg" />
+                                                <span class="error-message" id="phone-error"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-center pt-3">
+                                        <button type="submit" class="btn btn-primary btn-lg"
+                                            id="createButton">Create</button>
+                                    </div>
+                                    <div class="d-flex justify-content-center pt-3 ">
+                                        <p class="message">Already registered? <a
+                                                href="{{ url_for('login_page') }}">Login</a></p>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    {% include 'form/footer.html' %}
+</body>
+
+<script>
+    document.getElementById('registrationForm').addEventListener('submit', function (event) {
+        var username = document.getElementById('username').value;
+        var account = document.getElementById('account').value;
+        var password = document.getElementById('password').value;
+        var date = document.getElementById('date').value;
+        var gender = document.querySelector('input[name="gender"]:checked');
+        var email = document.getElementById('email').value;
+        var phone = document.getElementById('phone').value;
+
+        var errorMessages = document.getElementsByClassName('error-message');
+        for (var i = 0; i < errorMessages.length; i++) {
+            errorMessages[i].textContent = '';
+        }
+
+        if (username === '') {
+            document.getElementById('username-error').textContent = 'Please enter your username.';
+            event.preventDefault();
+        }
+
+        if (account === '') {
+            document.getElementById('account-error').textContent = 'Please enter your account.';
+            event.preventDefault();
+        }
+
+        if (password === '') {
+            document.getElementById('password-error').textContent = 'Please enter your password.';
+            event.preventDefault();
+        }
+
+        if (date === '') {
+            document.getElementById('date-error').textContent = 'Please enter your birthday.';
+            event.preventDefault();
+        }
+
+        if (!gender) {
+            document.getElementById('gender-error').textContent = 'Please select your gender.';
+            event.preventDefault();
+        }
+
+        if (email === '') {
+            document.getElementById('email-error').textContent = 'Please enter your email.';
+            event.preventDefault();
+        } else if (!email.endsWith('@gmail.com')) {
+            document.getElementById('email-error').textContent = 'Please enter a valid Gmail address.';
+            event.preventDefault();
+        }
+
+        if (phone === '') {
+            document.getElementById('phone-error').textContent = 'Please enter your phone number.';
+            event.preventDefault();
+        } else if (!/^(09|08|02)\d{8}$/.test(phone)) {
+            document.getElementById('phone-error').textContent = 'Please enter a valid phone number containing 10 digits at most.';
+            event.preventDefault();
+        }
+    });
+</script>

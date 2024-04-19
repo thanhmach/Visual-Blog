@@ -1,0 +1,146 @@
+{% include 'form/css.html' %}
+
+<body>
+  {% include 'form/header.html' %}
+
+  <section class="breadcrumbs">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Your Blog</h2>
+        <ol>
+          <li><a href="{{ url_for('index') }}">Home</a></li>
+          <li><a href="{{ url_for('inner_page') }}"></a>Your Blog</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  {% include 'blog/button/post.html' %}
+
+  <section class="inner_page">
+    {% for post in posts %}
+    <div class="container">
+      <div class="container mt-5 mb-5">
+        <div class="row d-flex align-items-center justify-content-center">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="d-flex justify-content-between p-2 px-3">
+                <div class="d-flex flex-row align-items-center">
+                  <img src="{{ url_for('static', filename='img/blogicon.png') }}" width="50" class="rounded-circle"
+                    alt="Blog Icon" />
+                  <div class="d-flex flex-column ml-2">
+                    <span class="font-weight-bold" color="#16507b">
+                      <p class="form-icon">Visualblog</p>
+                    </span>
+                    <small class="text-primary">{{ post.username }}</small>
+                  </div>
+                </div>
+              </div>
+              {% if post.image == None %}
+              <div class="row">
+                <div class="col-lg-10">
+                  <p class="text-justify" style="margin-left: 1.5rem;">{{ post.content }}</p>
+                </div>
+                <div class="col-lg-2">
+                  <button class="btn" data-bs-toggle="modal" data-bs-target="#translationModal" data-content="{{ post.content }}">
+                    <i class="bx bx-transfer bx-sm"></i>
+                  </button>
+                </div>
+              </div>
+              {% elif post.content == None %}
+              <img class="output-img-post" src="{{ post.image }}" alt="" />
+              {% else %}
+              <div class="row">
+                <div class="col-lg-10">
+                  <p class="text-justify" style="margin-left: 1.5rem;">{{ post.content }}</p>
+                </div>
+                <div class="col-lg-2">
+                  <button class="btn" data-bs-toggle="modal" data-bs-target="#translationModal" data-content="{{ post.content }}">
+                    <i class="bx bx-transfer bx-sm"></i>
+                  </button>
+                </div>
+              </div>
+              <img class="output-img-post" src="{{ post.image }}" alt="" />
+              {% endif %}
+              <hr />
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="container">
+                  <div class="row">
+                    {% for comment in comment_details %}
+                    {% if post.blogid == comment.blogid %}
+                    <div class="row">
+                      <div class="col-lg-11">
+                        <div class="d-flex flex-start {% if loop.index > 0 %}mt-4{% endif %}">
+                          <div style="background-color: #ffffff">
+                            <div class="d-flex justify-content-between align-items-center">
+                              <strong class="mb-1">
+                                {{ comment.username }}
+                              </strong>
+                            </div>
+                            <p class="small mb-0">
+                              {{ comment.comment }}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-1">
+                        <div class="row">
+                          {% if comment.accid == session['AccID'] %}
+                          <form action="/del_comment" method="POST" id="delete-comment-form">
+                            <input type="hidden" name="blogid" value="{{ comment.blogid }}" />
+                            <input type="hidden" name="commentid" value="{{ comment.commentid }}" />
+                            <button type="button" class="btn btn-sm" onclick="confirmDelete('{{ comment.commentid }}')">
+                              <i class="bx bxs-message-alt-x bx-sm"></i>
+                            </button>
+                          </form>
+                          <button class="btn" data-bs-toggle="modal" data-bs-target="#update_comment"
+                            data-commentid="{{ comment.commentid }}">
+                            <i class="bx bxs-edit-alt bx-sm"></i>
+                          </button>
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                    <hr />
+                    {% endif %}
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+              <div class="card-body d-flex justify-content-between">
+                <div class="like-count" style="color: #a09c9c; font-size: 13px;">
+                  Có {{ post.like_count }} người đã thích
+                </div>
+              </div>
+              <div class="card-footer d-flex justify-content-between">
+                {% include 'blog/button/delete_blog.html' %}
+                <button class="btn" data-bs-toggle="modal" data-bs-target="#editblog" data-blogid="{{ post.blogid }}"
+                  data-accid="{{ post.accid }}" data-image="{{ post.image }}" data-content="{{ post.content }}">
+                  <i class='bx bxs-edit-alt bx-sm'></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+    {% endfor %}
+  </section>
+
+  {% include 'form/footer.html' %}
+</body>
+
+{% include 'blog/edit_inner.html' %}
+{% include 'blog/edit_comment.html' %}
+{% include 'blog/API_modal.html' %}
+
+<script>
+  function confirmDelete(commentId) {
+    if (confirm("Bạn có chắc chắn muốn xoá comment này?")) {
+      var form = document.getElementById('delete-comment-form');
+      form.commentid.value = commentId;
+      form.submit();
+    }
+  }
+</script>
